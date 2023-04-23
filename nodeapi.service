@@ -1,0 +1,28 @@
+#
+# Systemd service configuration file for the nodeapi service. 
+# Under Unix/Linux servers that use Systemd, it's a great 
+# way to configure the nodeapi service.
+# 
+# Usage: 
+# systemdctl status nodeapi
+# systemdctl start nodeapi
+# systemdctl stop nodeapi
+# systemdctl restart nodeapi
+#
+
+[Unit]
+Description=nodeapi
+
+[Service]
+User=webmaster
+Group=webmaster
+WorkingDirectory=/home/webmaster/nodeapi
+Environment=NODE_ENV=production
+ExecStart=/usr/local/bin/ts-node /home/webmaster/nodeapi/server.ts
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+

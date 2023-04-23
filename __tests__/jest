@@ -1,0 +1,2 @@
+#!/bin/bash
+find . -name "*.test.ts" | xargs -I{} npx jest --runInBand --bail {}

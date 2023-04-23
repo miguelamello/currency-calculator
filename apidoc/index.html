@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CURRENCY CONVERSION CALCULATOR MICROSERVICE DOCUMENTATION</title>
+  <style>
+    body {
+      padding: 5% 10% 5% 10%;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    
+    p {
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-top: 25px;
+      margin-bottom: 25px;
+    }
+
+    code {
+      font-size: 0.9rem;
+    }
+
+    pre {
+      max-width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    .my-scroll {
+      overflow: auto; 
+      max-height: 300px;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>CURRENCY CONVERSION CALCULATOR MICROSERVICE DOCUMENTATION</h1>
+
+  <p>
+    This microservice allows an easily conversion between currencies.
+    Currency rates are updated frequently and applied to the conversion  
+    calculation. All the information about the api usage is provided in 
+    this documentation. This microservice also provides information about 
+    registered users and their past conversions. Provides a collection of 
+    all conversions for a specific user. Please continue reading the 
+    documentation to get aware of all service resources available.
+  </p>
+
+  <h2>1) Entrypoint</h2>
+
+  <p><pre>http://api.currency-calculator.space/transactions/</pre> 
+  <p>
+    All endpoints starts from the entrypoint above.
+    Accessing the entrypoint will retrieve the Currency Conversion Microservice documentation.
+  </p>
+
+  <h2>2) Endpoints</h2>
+
+  <p>
+    <div class="my-scroll">
+      <pre>GET /transactions/users</pre>
+      <div>Retrieves a collection of all service users</div>
+      <div>See example 2.1.1</div>
+    </div>
+  </p>
+    
+  <p>
+    <div class="my-scroll">
+      <pre>GET /transactions/users/{user_id}</pre>
+      <div>Retrieves information about a specific user</div>
+      <div>See example 2.1.2</div>
+    </div>    
+  </p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>GET /transactions/users/{user_id}/conversions</pre> 
+      <div>Retrieves a collection of conversions for a specific user</div>
+      <div>See example 2.1.3</div>
+    </div>    
+  </p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>GET /transactions/users/{user_id}/conversions?from=EUR&to=BRL&amount=1.00</pre>  
+      <div>Retrieves a conversion based on query parameters passed with the endpoint.</div>
+      <div>See example 2.1.4</div>
+    </div>    
+  </p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>GET /transactions/users/{user_id}/conversions/{conversion_id}</pre>
+      <div>Retrieves information about a specific conversion for a specific user</div>
+      <div>See example 2.1.5</div>
+    </div> 
+  </p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>GET /transactions/currencies</pre>
+      <div>Retrieves a collection of currency codes available for use in a conversion.</div>
+      <div>See example 2.1.6</div>
+    </div> 
+  </p>
+  
+  <h3>2.1) Usage examples</h3>
+
+  <p>Testing can be done using many ways depending of the client resources.</p>
+
+  <pre>curl -X GET http://api.currency-calculator.space/transactions/users</pre>
+  <div>From command line as above made with CURL in Linux / Unix</div>
+  <br>
+  <pre>http://api.currency-calculator.space/transactions/users</pre>
+  <div>From any internet browser by just navigating to the endpoint.</div>
+
+  <p>Note: All responses from endpoints are in JSON format, which are a 
+    representation of Javascript(ECMAScript) entities like Arrays, Objects, 
+    Strings, Numbers and so on. Clients must convert JSON to real entities 
+    on their side.
+  </p>
+
+  <h4>2.1.1) Collection of all service users</h4>
+
+  <p>Client request:</p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>http://api.currency-calculator.space/transactions/users</pre>      
+    </div>
+  </p>
+  
+  <p>Server response:</p>
+
+  <div class="my-scroll">
+    <pre>
+[
+  {
+    "id": "1",
+    "name": "Miguel Angelo Mello",
+    "email": "miguelangelomello@gmail.com"
+  },
+  {
+    "id": "2",
+    "name": "Ana Maria Braga",
+    "email": "anamariabraga@outlook.com"
+  },
+  {
+    "id": "3",
+    "name": "Frank Sinatra",
+    "email": "franksinatra@gmail.com"
+  },
+  ...
+]
+    </pre>    
+  </div>
+
+  <p>
+    Returns a collection of all service registered users. 
+    You can use the {id} from the server response to 
+    query more information about a specific user. 
+    The {id} translate to the {user_id} query parameter 
+    used in another endpoints. (see section #2 Endpoints)
+  </p>
+
+  <h4>2.1.2) Get a specific user</h4>
+
+  <p>Client request:</p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>http://api.currency-calculator.space/transactions/users/3</pre>
+    </div>
+  </p>
+  
+  <p>Server response:</p>
+
+  <div class="my-scroll">
+    <pre>
+{
+  "id": "3",
+  "name": "Frank Sinatra",
+  "email": "franksinatra@gmail.com"
+}
+    </pre>    
+  </div>
+
+  <p>
+    Returns an object literal containing information 
+    about the specific user related to the {user_id} 
+    query parameter. (see section #2 Endpoints)
+  </p>
+
+  <h4>2.1.3) Collection of conversions for a specific user</h4>
+
+  <p>Client request:</p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>http://api.currency-calculator.space/transactions/users/3/conversions</pre>
+    </div>
+  </p>
+  
+  <p>Server response:</p>
+
+  <div class="my-scroll">
+    <pre>
+[
+  {
+    "transaction_id": "60",
+    "user_id": "3",
+    "source_currency": "USD",
+    "source_value": "5.50",
+    "target_currency": "JPY",
+    "target_value": "714.34",
+    "conversion_rate": "129.88",
+    "utc_datetime": "Fri, 27 Jan 2023 03:32:36 GMT"
+  },
+  {
+    "transaction_id": "59",
+    "user_id": "3",
+    "source_currency": "EUR",
+    "source_value": "1.00",
+    "target_currency": "BRL",
+    "target_value": "5.54",
+    "conversion_rate": "5.54",
+    "utc_datetime": "Wed, 25 Jan 2023 23:40:38 GMT"
+  },
+  {
+    "transaction_id": "58",
+    "user_id": "3",
+    "source_currency": "USD",
+    "source_value": "1.00",
+    "target_currency": "BRL",
+    "target_value": "5.07",
+    "conversion_rate": "5.07",
+    "utc_datetime": "Wed, 25 Jan 2023 23:40:04 GMT"
+  },
+  ...
+]
+    </pre>    
+  </div>
+
+  <p>
+    Returns a collection of conversions objects literals of past 
+    conversions made by a specific user related to the 
+    {user_id} query parameter. (see section #2 Endpoints)
+  </p>
+
+  <h4>2.1.4) Make a currency conversion</h4>
+
+  <p>Client request:</p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>http://api.currency-calculator.space/transactions/users/3/conversions?from=EUR&to=BRL&amount=150.00</pre>
+    </div>
+  </p>
+  
+  <p>Server response:</p>
+
+  <div class="my-scroll">
+    <pre>
+{
+  "transaction_id": "61",
+  "user_id": "3",
+  "source_currency": "EUR",
+  "source_value": "150.00",
+  "target_currency": "BRL",
+  "target_value": "849.00",
+  "conversion_rate": "5.66",
+  "utc_datetime": "Fri, 27 Jan 2023 15:37:25 GMT"
+}
+    </pre>    
+  </div>
+
+  <p>
+    Returns an object literal containing information 
+    about the conversion made. Any sucessfull conversion 
+    will automatically be saved to the database for posterior 
+    query.
+  </p>
+
+  <h4>2.1.5) Get a specific conversion</h4>
+
+  <p>Client request:</p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>http://api.currency-calculator.space/transactions/users/3/conversions/61</pre>
+    </div>
+  </p>
+  
+  <p>Server response:</p>
+
+  <div class="my-scroll">
+    <pre>
+{
+  "transaction_id": "61",
+  "user_id": "3",
+  "source_currency": "EUR",
+  "source_value": "150.00",
+  "target_currency": "BRL",
+  "target_value": "849.00",
+  "conversion_rate": "5.66",
+  "utc_datetime": "Fri, 27 Jan 2023 15:37:25 GMT"
+}
+    </pre>    
+  </div>
+
+  <p>
+    Returns an object literal containing information 
+    about the conversion made past by the user. The 
+    {conversion_id} query parameter must be sent to the 
+    server. (see section #2 Endpoints)
+  </p>
+
+  <h4>2.1.6) Get a list of available currency codes for conversion.</h4>
+
+  <p>Client request:</p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>http://api.currency-calculator.space/transactions/currencies</pre>
+    </div>
+  </p>
+  
+  <p>Server response:</p>
+
+  <div class="my-scroll">
+    <pre>
+[
+  { "AED" : "United Arab Emirates Dirham" },
+  { "AFN" : "Afghan Afghani" },
+  { "ALL" : "Albanian Lek" },
+  { "AMD" : "Armenian Dram" },
+  { "ANG" : "Netherlands Antillean Guilder" },
+  { "AOA" : "Angolan Kwanza" },
+  { "ARS" : "Argentine Peso" },
+  { "AUD" : "Australian Dollar" },
+  { "AWG" : "Aruban Florin" },
+  { "AZN" : "Azerbaijani Manat" },
+  { "BAM" : "Bosnia and Herzegovina Convertible Mark" },
+  { "BBD" : "Barbadian Dollar" },
+  { "BDT" : "Bangladeshi Taka" },
+  { "BGN" : "Bulgarian Lev" },
+  { "BHD" : "Bahraini Dinar" },
+  { "BIF" : "Burundian Franc" },
+  { "BMD" : "Bermudian Dollar" },
+  { "BND" : "Brunei Dollar" },
+  { "BOB" : "Bolivian Boliviano" },
+  { "BRL" : "Brazilian Real" },
+  { "BSD" : "Bahamian Dollar" },
+  { "BTN" : "Bhutanese Ngultrum" },
+  { "BWP" : "Botswana Pula" },
+  { "BYN" : "Belarusian Ruble" },
+  { "BYR" : "Belarusian Ruble (old)" },
+  { "BZD" : "Belize Dollar" },
+  { "CAD" : "Canadian Dollar" },
+  { "CDF" : "Congolese Franc" },
+  { "CHF" : "Swiss Franc" },
+  { "CLF" : "Chilean Unit of Account (UF)" },
+  { "CLP" : "Chilean Peso" },
+  { "CNY" : "Chinese Yuan" },
+  { "COP" : "Colombian Peso" },
+  { "CRC" : "Costa Rican Colón" },
+  { "CUC" : "Cuban Convertible Peso" },
+  { "CUP" : "Cuban Peso" },
+  { "CVE" : "Cape Verdean Escudo" },
+  { "CZK" : "Czech Koruna" },
+  { "DJF" : "Djiboutian Franc" },
+  ...
+]
+    </pre>    
+  </div>
+
+  <p>
+    Returns a collection of available currency code objects literals for use in a conversion.
+    Only currency codes in the collection can be used for making a 
+    conversion. (see section #2 Endpoints)
+  </p>
+
+  <h2>3) Request and Response format</h2>
+
+  <p>
+    All requests and responses must be in JSON format. By now there is only GET 
+    resources accepting url query paramenters. Returned JSON maybe a collection 
+    of objects literals (array of object literals), or an empty collection (empty array), 
+    or an empty object literal (object with no properties). 
+  </p>
+
+  <h3>3.1) Examples of returned JSON</h3>
+
+  <p>
+    <div class="my-scroll">
+      <pre>[{...},{...},{...},...]</pre><br>  
+      <div>Collection of one or more objects literals.</div>
+    </div>
+  </p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>[]</pre><br>
+      <div>Collection empty. No objects literals returned.</div>
+    </div>
+  </p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>{}</pre><br>
+      <div>Object literal empty. No properties returned.</div>
+    </div>
+  </p>
+
+  <h2>4) Authentication</h2>
+  <p>For now no APIKEY is required for authentication, but it maybe required in the future.</p>
+
+  <h2>5) Error Responses</h2>
+
+  <p>
+    Server will respond with an Error Object Literal containing 
+    the status and the message of error. Errors can be triggered 
+    by the client itself, for example when sending mistyped query 
+    parameters, or the server itself can trigger a Error when a 
+    task can not be completed for any reason. 
+  </p>
+
+  <p>
+    <div class="my-scroll">
+      <pre>{ "status": number, "message": string }</pre><br>
+      <div>
+        The object literal returned will contain two properties: 
+        "status" with a number and "message" with the human readable text.
+      </div>
+    </div>
+  </p>
+
+  <h3>5.1) List of Error Objects</h3>
+
+  <pre>
+  { status: 400, message: 'Resource not available.' }
+  { status: 401, message: 'User ID must be a number.' }
+  { status: 402, message: 'User does not exists.' }
+  { status: 403, message: 'Parameter {from} is required.' }
+  { status: 404, message: 'Parameter {to} is required.' }
+  { status: 405, message: 'Parameter {amount} is required.' }
+  { status: 406, message: 'Parameter {from} must contain one valid currency name abreviation {EUR, BRL, USD, ...}.' }   
+  { status: 407, message: 'Parameter {to} must contain one valid currency name abreviation {EUR, BRL, USD, ...}.' }
+  { status: 408, message: 'Parameter {amount} must be a number.' }
+  { status: 409, message: 'Conversion ID must be a number.' }
+  { status: 410, message: 'Conversion ID does not exist.' }
+  { status: 499, message: 'Resource does not exist.' }
+  { status: 501, message: 'Impossible to proceed with conversion. Aborted. Report generated.' }
+  { status: 502, message: 'Impossible to save conversion. Aborted. Report generated.' }
+  { status: 503, message: 'Impossible to list conversions. Aborted. Report generated.' }
+  { status: 504, message: 'Impossible to list users. Aborted. Report generated.' }    
+  </pre>
+
+  <p>Any question, suggestion, information can be directed to developers@currency-calculator.space</p>
+
+  <p>
+    <div><b>Disclaimer:</b></div>
+    <p>This microservice is being provided for demonstration purposes only and should not be used 
+      in any production environment. The primary goal of this microservice is to showcase the technical 
+      skills and capabilities of the developer responsible for it. While the microservice may perform 
+      accurately and efficiently in terms of technical specifications, it should not be relied upon for 
+      any actual currency calculations. Please be advised that this microservice is not suitable for 
+      real-world applications and should not be used in any such environment. The developer, hosting platform, 
+      or any related parties will not be held responsible for any inaccuracies, errors or harms caused by 
+      the use of this microservice, be advised. If you require a production-ready microservice that is reliable, secure 
+      and suitable for real-world applications for a task similar to here presented or for any other task, 
+      please contact the developer at <code>&#60;Miguel Angelo Mello&#62; developer@currency-calculator.space</code> 
+      for assistance. Thank you for your understanding.</p>
+  </p>
+</body>
+</html>

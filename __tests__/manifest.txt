@@ -1,0 +1,50 @@
+INTEGRATION TESTING MANIFEST
+================================
+
+1) integration-1.test.ts 
+http://api.currency-calculator.space/transactions
+Test if the endpoint returns the microservice documentation.
+
+2) integration-2.test.ts 
+http://api.currency-calculator.space/transactions/users/1/conversions/100000
+Test if endpoint returns an error object since the conversion_id does not exists in database.
+
+3) integration-3.test.ts 
+http://api.currency-calculator.space/transactions/users/1/conversions/33
+Test if endpoint returns an conversion object filled with conversion information since the user_id and the conversion_id does exists in database.
+
+4) integration-4.test.ts 
+http://api.currency-calculator.space/transactions/users/4/conversions
+Test if endpoint returns a collection of conversions objects indexed to the specified user_id.
+
+5) integration-5.test.ts 
+http://api.currency-calculator.space/transactions/users/1
+Test if endpoint returns an user object filled with user information since the user_id does exists in database.
+
+6) integration-6.test.ts 
+http://api.currency-calculator.space/transactions/users/1000
+Test if endpoint returns an error object since the user_id does not exists in database.
+
+7) integration-7.test.ts 
+http://api.currency-calculator.space/transactions/users/abc
+Test if endpoint returns an error object since the user_id must be a number.
+
+8) integration-8.test.ts 
+http://api.currency-calculator.space/transactions/users/1/conversions/abc
+Test if endpoint returns an error object since the conversion_id must be a number.
+
+9) integration-9.test.ts 
+http://api.currency-calculator.space/transactions/users
+Test if endpoint returns a collection of users objects.
+
+10) integration-10.test.ts 
+http://api.currency-calculator.space/transactions/abc
+Test if the endpoint exists on server.
+
+11) integration-11.test.ts 
+http://api.currency-calculator.space/transactions/currencies
+Test if the endpoint returns a collection of available currency code objects for use in a conversion.
+
+12) integration-12.test.ts 
+http://api.currency-calculator.space/transactions/users/1/conversions?from=BRL&to=USD&amount=100
+Test if the endpoint returns an object literal containing information about the conversion made.
